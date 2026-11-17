@@ -39,6 +39,13 @@ bench: all
 	        read -r real user sys < "$$timing"; \
 	        printf '%-23s %5s %4s %9s %9s %9s\n' "$${name%_O?}" "-$${name##*_}" "$$run" "$$real" "$$user" "$$sys"; \
 	    done; \
+	done; \
+	for level in $(LEVELS); do \
+	    for run in 1 2 3; do \
+	        $(TIME) -f '%e %U %S' -o "$$timing" "./build/03_inline_and_fusion_O$$level" fused > /dev/null; \
+	        read -r real user sys < "$$timing"; \
+	        printf '%-23s %5s %4s %9s %9s %9s\n' '03_inline_and_fusion' 'fused' "$$run" "$$real" "$$user" "$$sys"; \
+	    done; \
 	done
 
 asm: $(ASSEMBLY)

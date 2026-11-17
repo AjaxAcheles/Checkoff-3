@@ -47,13 +47,14 @@ Median elapsed time (`real`) from three runs per build, in seconds. Times cover 
 
 | Experiment | `-O0` | `-O1` | `-O2` | `-O3` |
 | --- | ---: | ---: | ---: | ---: |
-| 01 Loop collapse | 0.13 | 0.09 | 0.00 | 0.00 |
-| 02 Array sum | 0.13 | 0.09 | 0.04 | 0.04 |
-| 03 Inlining and fusion (default) | 0.11 | 0.03 | 0.02 | 0.02 |
+| 01 Loop collapse | 0.08 | 0.05 | 0.00 | 0.00 |
+| 02 Array sum | 0.07 | 0.03 | 0.02 | 0.01 |
+| 03 Inlining and fusion (default) | 0.05 | 0.03 | 0.02 | 0.02 |
+| 03 Inlining and fusion (fused) | 0.05 | 0.02 | 0.02 | 0.01 |
 
-Experiment 02 had the same displayed median at `-O2` and `-O3`. The assembly shows changes that the timings alone can't identify.
+The fused version matches the default at `-O0` and `-O2` and edges ahead at `-O1` and `-O3` (0.01s versus 0.02s at `-O3`), since GCC inlines `add()` from `-O1` up and manual fusion mainly removes a pass.
 
-Presentation run and takeaways ______________________________
+-O3 deleted the loops in Experiment 01 (both `-O2` and `-O3` read `0.00s`). Experiment 02 lands at `0.02s` (`-O2`) and `0.01s` (`-O3`), and its `-O3` listing vectorizes with `paddd` and partially unrolls the pass loop. Experiment 03 inlines `add()` at `-O3`, and the fused version edges ahead at `0.01s` versus `0.02s` for default by doing the doubling and summing in one pass.
 
 ## Slides
 

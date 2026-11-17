@@ -2,16 +2,13 @@
 
 enum { ELEMENTS = 1000000, PASSES = 128 };
 
-/* Keep the large array off the stack. */
 static int values[ELEMENTS];
 
-int main(void)
-{
+int main(void) {
     for (int i = 0; i < ELEMENTS; ++i) {
         values[i] = 1 + i % 16;
     }
 
-    /* Repeat to get a measurable runtime. */
     int total = 0;
     for (int pass = 0; pass < PASSES; ++pass) {
         for (int i = 0; i < ELEMENTS; ++i) {

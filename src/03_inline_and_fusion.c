@@ -5,13 +5,11 @@ enum { ELEMENTS = 16000000 };
 
 static int values[ELEMENTS];
 
-static int add(int a, int b)
-{
+static int add(int a, int b) {
     return a + b;
 }
 
-static int sum_separately(void)
-{
+static int sum_separately(void) {
     for (int i = 0; i < ELEMENTS; ++i) {
         values[i] *= 2;
     }
@@ -23,8 +21,7 @@ static int sum_separately(void)
     return total;
 }
 
-static int sum_fused(void)
-{
+static int sum_fused(void) {
     int total = 0;
     for (int i = 0; i < ELEMENTS; ++i) {
         values[i] *= 2;
@@ -33,8 +30,7 @@ static int sum_fused(void)
     return total;
 }
 
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]) {
     int use_fused = argc == 2 && strcmp(argv[1], "fused") == 0;
     if (argc > 1 && !use_fused) {
         fprintf(stderr, "Usage: %s [fused]\n", argv[0]);
